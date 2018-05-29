@@ -341,6 +341,47 @@
         +       fonts
         +           glyphicons-halflings-regular.woff
         +           glyphicons-halflings-regular.woff2  
+        
+    6.5 less-loader 
+    
+        npm install less less-loader --save-dev
+        
+        // webpack.config.js
+        module: {
+            rules: [
+                {
+                    test: /\.less$/,
+                    use: ExtractTextWebpackPlugin.extract({
+                        fallback: 'style-loader',
+                        use: [
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    importLoaders: 1
+                                }
+                            },
+                            'less-loader',
+                            'postcss-loader'
+                        ],
+                        publicPath: ''
+                    }), // 从右向左写，webpack 的特性，因此 style-loader 必须在 css-loader 的前面
+                    include: path.resolve(__dirname, 'src'),
+                    exclude: /node_modules/
+                }
+            ]
+        }
+        
+        // index.js
+        import './src/less/style.less';
+        
+        // 原 less 文件目录
+        +   src
+        +       less
+        +           style.less
+        
+        // 输出文件目录
+        +   dist
+        +       home.css
 
 7、Plugins
 
